@@ -3,3 +3,4 @@ The second line
 Line from branch dev
 Line from branch master
 Test git rebase!
+123456
