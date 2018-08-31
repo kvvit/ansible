@@ -1,2 +1,4 @@
 The first line
 The second line
+Line from branch dev
+Line from branch master
