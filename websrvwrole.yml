@@ -1,0 +1,9 @@
+
+---
+
+- name: Install Apache and run with configuration
+  hosts: linux
+  become: yes
+
+  roles:
+    - { role: httpd, when: ansible_system == 'Linux' }

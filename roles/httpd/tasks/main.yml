@@ -1,0 +1,42 @@
+---
+# tasks file for httpd
+  - name: Check OS version
+    debug: var=ansible_os_family
+
+  - block:
+
+     - name: Installs apache web server centos
+       yum: pkg=httpd state=installed update_cache=true
+       notify: firewall action
+
+     - name: Generate index html centos
+       template: src=index.j2 dest={{ destin_folder }}/index.html mode=0555
+       notify: restart apache centos
+
+     - name: copy My web page to servers centos
+       copy: src=spbu_logo.png  dest={{ destin_folder }}/images/ mode=0555
+       notify: restart apache centos
+ 
+     - name: Start web server and start it on boot centos
+       service: name=httpd state=started enabled=yes
+
+    when: ansible_os_family == "RedHat"
+
+  - block:
+
+     - name: Installs apache web server ubuntu
+       apt: pkg=apache2 state=present update_cache=true
+       notify: firewall action
+
+     - name: Generate index html ubuntu
+       template: src=index.j2 dest={{ destin_folder }}/index.html mode=0555
+       notify: restart apache ubuntu
+
+     - name: copy My web page to servers ubuntu
+       copy: src=spbu_logo.png  dest={{ destin_folder }}/images/ mode=0555
+       notify: restart apache ubuntu
+    
+     - name: Start web server and start it on boot ubuntu
+       service: name=apache2 state=started enabled=yes
+    
+    when: ansible_os_family == "Debian"
