@@ -1,0 +1,17 @@
+---
+- name: Installs necessary packages
+  hosts: linux
+  become: yes
+
+  tasks:
+   - name: Installation
+     yum: pkg={{ item }} state=latest
+     with_items:
+       - mariadb-server
+       - mariadb
+       - php
+       - git
+   - name: Start web server and start it on boot centos
+     service: name=httpd state=started enabled=yes  
+   - name: Start mariadb server and start it on boot centos  
+     service: name=mariadb state=started enabled=yes
