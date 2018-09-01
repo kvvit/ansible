@@ -11,6 +11,7 @@
    - name: Installation
      yum: pkg={{ item }} state=latest
      with_items:
+       - httpd
        - mariadb-server
        - mariadb
        - php
