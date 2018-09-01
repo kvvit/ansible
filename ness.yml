@@ -11,6 +11,9 @@
        - mariadb
        - php
        - git
+       - htop
+       - net-tools
+       - tree
    - name: Start web server and start it on boot centos
      service: name=httpd state=started enabled=yes  
    - name: Start mariadb server and start it on boot centos  
