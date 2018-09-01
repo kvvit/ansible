@@ -4,6 +4,10 @@
   become: yes
 
   tasks:
+   - name: Upgrade all packages
+     yum:
+       name: '*'
+       state: latest
    - name: Installation
      yum: pkg={{ item }} state=latest
      with_items:
