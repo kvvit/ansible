@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <title>Sample "My Web Site" Application</title>
+  </head>
+  <body bgcolor=azure>
+
+    <table border="0" cellpadding="10">
+      <tr>
+        <td>
+          <img src="images/spbu_logo.png">
+        </td>
+        <td>
+          <h1>Sample "My Web Site" Application</h1>
+        </td>
+      </tr>
+    </table>
+
+    <p>This is the home page for the My Web Site Web application. </p>
+    <p>Server host name  : {{ ansible_hostname }}. </p>
+    <p>Server OS family  : {{ ansible_os_family}}. </p>
+    <p>Server IP address : {{ ansible_default_ipv4.address }}. </p>
+    </ul>
+
+  </body>
+</html>

@@ -1,0 +1,9 @@
+
+---
+
+- name: Install zabbix and run with configuration
+  hosts: zbxcli
+  become: yes
+
+  roles:
+    - { role: zabbix, when: ansible_system == 'Linux' }

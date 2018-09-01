@@ -1,0 +1,16 @@
+---
+# handlers file for zabbix
+
+  - name: restart zabbix-agent
+    service: name=zabbix-agent state=restarted
+
+  - name: add 10050 rule to firewall
+    firewalld: immediate=yes port=10050/tcp permanent=true state=enabled
+    listen: firewall action
+  - name: add 10051 rule to firewall
+    firewalld: immediate=yes port=10051/tcp permanent=true state=enabled
+    listen: firewall action
+  - name: restart firewall
+    service: name=firewalld state=restarted
+    listen: firewall action
+

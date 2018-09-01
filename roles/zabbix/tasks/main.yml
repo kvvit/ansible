@@ -1,0 +1,43 @@
+---
+# tasks file for zabbix
+  - name: Check OS version
+    debug: var=ansible_os_family
+
+  - block:
+     - name: Add the Zabbix repository to the CentOS 7 system
+       yum:
+         name: http://repo.zabbix.com/zabbix/3.4/rhel/7/x86_64/zabbix-release-3.4-1.el7.centos.noarch.rpm
+
+     - name: Install zabbix agent
+       yum:  pkg=zabbix-agent state=installed update_cache=true
+       notify: firewall action
+
+     - name: copy zabbix_agentd.conf
+       template: src=zabbix_agentd.j2 dest={{ destin_folder }}/zabbix_agentd.conf owner=root group=root mode=0644
+       notify: restart zabbix-agent
+
+     - name: Start zabbix-agent and start it on boot centos
+       service: name=zabbix-agent state=started enabled=yes
+ 
+    when: ansible_os_family == "RedHat"
+
+  - block:
+     - name: Add the Zabbix repository to the Debian 8 system
+       shell: wget https://repo.zabbix.com/zabbix/3.4/debian/pool/main/z/zabbix-release/zabbix-release_3.4-1+jessie_all.deb
+     - name: Unpack the Zabbix repository
+       shell: dpkg -i zabbix-release_3.4-1+jessie_all.deb
+
+     - name: Install zabbix agent
+       apt:  pkg=zabbix-agent state=installed update_cache=true
+       notify: firewall action
+
+     - name: copy zabbix_agentd.conf
+       template: src=zabbix_agentd.j2 dest={{ destin_folder }}/zabbix_agentd.conf owner=root group=root mode=0644
+       notify: restart zabbix-agent
+
+     - name: Start zabbix-agent and start it on boot centos
+       service: name=zabbix-agent state=started enabled=yes
+
+    when: ansible_os_family == "Debian"
+
+

@@ -1,0 +1,18 @@
+---
+# handlers file for httpd
+  - name: restart apache centos
+    service: name=httpd state=restarted
+  
+  - name: restart apache ubuntu
+    service: name=apache2 state=restarted
+ 
+    
+  - name: add http rule to firewall
+    firewalld: immediate=yes service=http permanent=true state=enabled
+    listen: firewall action
+  - name: add https rule to firewall
+    firewalld: immediate=yes service=https permanent=true state=enabled
+    listen: firewall action
+  - name: restart firewall
+    service: name=firewalld state=restarted
+    listen: firewall action
