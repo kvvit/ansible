@@ -1,0 +1,32 @@
+---
+
+- name: Instal usefull packages on CentOS 7
+  hosts: srvlin2.ad.pu.ru
+  become: yes
+  tasks:
+  - name: Check OS version
+    debug: var=ansible_os_family
+
+  - block:
+     - name: Upgrade all packages
+       yum:
+         name: '*'
+         state: latest
+
+     - name: Installs net-tools
+       yum: pkg={{ item }} state=latest
+       with_items:
+       - net-tools
+       - open-vm-tools
+       - tree
+       - mc
+       - wget
+       - nmap
+       notify: Start vm tools service
+
+    when: ansible_os_family == "RedHat"
+
+  handlers:
+  - name: Start vm tools service
+    service: name=vmtoolsd state=started enabled=yes
+
