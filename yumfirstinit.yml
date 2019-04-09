@@ -13,15 +13,20 @@
          name: '*'
          state: latest
 
-     - name: Installs net-tools
+     - name: Installs packages
        yum: pkg={{ item }} state=latest
        with_items:
+       - epel-release
        - net-tools
        - open-vm-tools
        - tree
        - mc
        - wget
        - nmap
+
+     - name: Install htop (after epel)
+       yum: pkg=htop state=latest update_cache=true
+
        notify: Start vm tools service
 
     when: ansible_os_family == "RedHat"
